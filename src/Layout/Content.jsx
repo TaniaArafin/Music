@@ -8,6 +8,7 @@ const Content = () => {
   const [name, setName] = useState("Tania");
   const [isPending, setIsPending] = useState(true);
   const [search, setSearch] = useState("");
+  const [error, setError] = useState(null);
 
   const filteredBlogs = blog
     ? blog.filter((b) => b.title.toLowerCase().includes(search.toLowerCase()))
@@ -22,11 +23,19 @@ const Content = () => {
     setTimeout(()=>{
         fetch("http://localhost:9000/blogs")
       .then((res) => {
+        if(!res.ok){
+            throw Error("Could not fetch the data for that resource");
+        }
         return res.json();
       })
       .then((data) => {
         setBlog(data);
         setIsPending(false);
+        setError(null);
+      })
+      .catch((err)=>{
+        setIsPending(false);
+        setError(err.message);
       });
     }, 500)
   }, []);
@@ -52,6 +61,7 @@ const Content = () => {
           />
         </div>
       </section>
+      {error && <div>{error}</div>}
       {isPending && <div>Loading...</div>}
       {filteredBlogs && <BlogList blog={filteredBlogs} handleDelete={handleDelete} />}
       <button onClick={() => setName("Arafin")}>Change Name</button>
