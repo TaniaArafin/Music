@@ -2,43 +2,26 @@ import Header from "./Header";
 import HeaderComponent from "./HeaderComponent";
 import BlogList from "./BlogList";
 import { useState, useEffect } from "react";
+import useFetch from "../CustomHook/UseFetch";
 const Content = () => {
   const [blog, setBlog] = useState(null);
 
   const [name, setName] = useState("Tania");
-  const [isPending, setIsPending] = useState(true);
+//   const [isPending, setIsPending] = useState(true);
   const [search, setSearch] = useState("");
-  const [error, setError] = useState(null);
+//   const [error, setError] = useState(null);
+ const { data, isPending, error } = useFetch("http://localhost:9000/blogs");
 
-  const filteredBlogs = blog
-    ? blog.filter((b) => b.title.toLowerCase().includes(search.toLowerCase()))
+  const filteredBlogs = data
+    ? data.filter((b) => b.title.toLowerCase().includes(search.toLowerCase()))
     : null;
 
   const handleDelete = (id) => {
-    const newBlogs = blog.filter((b) => b.id !== id);
+    const newBlogs = data.filter((b) => b.id !== id);
     setBlog(newBlogs);
   };
 
-  useEffect(() => {
-    setTimeout(()=>{
-        fetch("http://localhost:9000/blogs")
-      .then((res) => {
-        if(!res.ok){
-            throw Error("Could not fetch the data for that resource");
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setBlog(data);
-        setIsPending(false);
-        setError(null);
-      })
-      .catch((err)=>{
-        setIsPending(false);
-        setError(err.message);
-      });
-    }, 500)
-  }, []);
+ 
 
   return (
     <div>

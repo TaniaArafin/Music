@@ -1,5 +1,6 @@
 import Tagline from "./Tagline";
 import SearchBar from "./SearchBar";
+import { Link } from "react-router";
 
 const Header = ({ onSearch }) => {
   return (
@@ -9,7 +10,7 @@ const Header = ({ onSearch }) => {
 
         <nav className="flex items-center gap-5 pt-[10px]">
           <a href="/" className="text-blossom-50 no-underline hover:text-blossom-300">Home</a>
-          <a href="/about" className="text-blossom-50 no-underline hover:text-blossom-300">About</a>
+          <Link to="/about" className="text-blossom-50 no-underline hover:text-blossom-300">About</Link>
           <a href="/contact" className="text-blossom-50 no-underline hover:text-blossom-300">Contact</a>
           <a href="/pricing" className="text-blossom-50 no-underline hover:text-blossom-300">Pricing</a>
         </nav>
