@@ -3,14 +3,15 @@ import HeaderComponent from "./HeaderComponent";
 import BlogList from "./BlogList";
 import { useState, useEffect } from "react";
 import useFetch from "../CustomHook/UseFetch";
+import Create from "./Create";
 const Content = () => {
   const [blog, setBlog] = useState(null);
 
   const [name, setName] = useState("Tania");
-//   const [isPending, setIsPending] = useState(true);
+
   const [search, setSearch] = useState("");
-//   const [error, setError] = useState(null);
- const { data, isPending, error } = useFetch("http://localhost:9000/blogs");
+
+  const { data, isPending, error } = useFetch("http://localhost:9000/blogs");
 
   const filteredBlogs = data
     ? data.filter((b) => b.title.toLowerCase().includes(search.toLowerCase()))
@@ -20,8 +21,6 @@ const Content = () => {
     const newBlogs = data.filter((b) => b.id !== id);
     setBlog(newBlogs);
   };
-
- 
 
   return (
     <div>
@@ -46,10 +45,13 @@ const Content = () => {
       </section>
       {error && <div>{error}</div>}
       {isPending && <div>Loading...</div>}
-      {filteredBlogs && <BlogList blog={filteredBlogs} handleDelete={handleDelete} />}
+      {filteredBlogs && (
+        <BlogList blog={filteredBlogs} handleDelete={handleDelete} />
+      )}
       <button onClick={() => setName("Arafin")}>Change Name</button>
 
       <div>{name} </div>
+      <Create/>
     </div>
   );
 };
