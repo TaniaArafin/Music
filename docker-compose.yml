@@ -1,0 +1,16 @@
+# Local development database. Production uses Neon (free plan).
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: music-io-db
+    network_mode: bridge
+    environment:
+      POSTGRES_USER: music
+      POSTGRES_PASSWORD: music
+      POSTGRES_DB: music
+    ports:
+      - "5433:5432"
+    volumes:
+      - music-io-db:/var/lib/postgresql/data
+volumes:
+  music-io-db:

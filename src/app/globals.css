@@ -1,0 +1,57 @@
+@import "tailwindcss";
+
+/* music.io palette, ported from the original tailwind.config.js */
+@theme {
+  --color-eggplant-50: #f9f6f8;
+  --color-eggplant-100: #f5eef2;
+  --color-eggplant-200: #ecdee6;
+  --color-eggplant-300: #ddc4d1;
+  --color-eggplant-400: #c79fb3;
+  --color-eggplant-500: #b38199;
+  --color-eggplant-600: #9d657d;
+  --color-eggplant-700: #855166;
+  --color-eggplant-800: #6e4555;
+  --color-eggplant-900: #5e3d4a;
+  --color-eggplant-950: #372029;
+
+  --color-blossom-50: #fcf4f5;
+  --color-blossom-100: #f9eaec;
+  --color-blossom-200: #f3d8dc;
+  --color-blossom-300: #e8b4bc;
+  --color-blossom-400: #dc909d;
+  --color-blossom-500: #cc677b;
+  --color-blossom-600: #b54964;
+  --color-blossom-700: #983852;
+  --color-blossom-800: #803149;
+  --color-blossom-900: #6e2d43;
+  --color-blossom-950: #3c1521;
+
+  --color-viola-50: #fbf4f7;
+  --color-viola-100: #f7ecf1;
+  --color-viola-200: #f1d9e5;
+  --color-viola-300: #e7bacf;
+  --color-viola-400: #d282a6;
+  --color-viola-500: #c76d93;
+  --color-viola-600: #b34f74;
+  --color-viola-700: #993d5d;
+  --color-viola-800: #7f354d;
+  --color-viola-900: #6b3043;
+  --color-viola-950: #401724;
+
+  --color-bizarre-50: #fcf6f4;
+  --color-bizarre-100: #f9edea;
+  --color-bizarre-200: #f5e3e0;
+  --color-bizarre-300: #e8c0b9;
+  --color-bizarre-400: #db9a91;
+  --color-bizarre-500: #ca7269;
+  --color-bizarre-600: #b3504b;
+  --color-bizarre-700: #963c3a;
+  --color-bizarre-800: #7e3334;
+  --color-bizarre-900: #6d2e31;
+  --color-bizarre-950: #3b1617;
+}
+
+body {
+  background: var(--color-eggplant-50);
+  color: var(--color-eggplant-950);
+}

@@ -1,70 +1,71 @@
-# Getting Started with Create React App
+# Music.io
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Where every emotion finds its sound. Music.io is a free, full-stack music streaming app built with
+Next.js, TypeScript and PostgreSQL.
 
-## Available Scripts
+> Status: **Phase 1 (Foundation) done.** The music player, library, visualizer and Listen Together
+> rooms come next. See the [design spec](docs/superpowers/specs/2026-11-05-music-io-nextjs-design.md).
 
-In the project directory, you can run:
+## Stack
 
-### `npm start`
+| Area | Technology |
+|---|---|
+| Framework | Next.js 16 (App Router, Cache Components) + TypeScript (strict) |
+| Styling | Tailwind CSS 4 with the music.io palette |
+| Database | PostgreSQL (Docker locally, Neon in production) + Prisma 7 |
+| Login | Auth.js: one-click demo account, optional GitHub and Google |
+| Validation | Zod |
+| Tests | Vitest + Testing Library |
+| CI | GitHub Actions: lint, typecheck, tests, migrations, build |
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Every service has a free plan. Nothing in this project needs a paid account.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Run it locally
 
-### `npm test`
+Requirements: Node.js 22 and Docker.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+npm install
+cp .env.example .env          # then set AUTH_SECRET: openssl rand -base64 32
+npm run db:up                 # starts Postgres on localhost:5433
+npm run db:migrate            # creates the tables
+npm run dev                   # http://localhost:3000
+```
 
-### `npm run build`
+Open `/login` and click **Try the demo account**.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To turn on GitHub or Google login, create an OAuth app and fill in the `AUTH_GITHUB_*` or
+`AUTH_GOOGLE_*` values in `.env`. The callback URL is `http://localhost:3000/api/auth/callback/github`
+(or `/google`).
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Scripts
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+| Command | What it does |
+|---|---|
+| `npm run dev` | Start the dev server |
+| `npm run build` | Production build |
+| `npm run lint` | ESLint |
+| `npm run typecheck` | Generate route types and run TypeScript |
+| `npm test` | Unit and component tests |
+| `npm run db:up` | Start the local database |
+| `npm run db:migrate` | Create and apply a migration |
 
-### `npm run eject`
+## Deploy for free (Vercel + Neon)
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. Create a free database at [neon.tech](https://neon.tech) and copy its connection string.
+2. Import the GitHub repo into [Vercel](https://vercel.com) (Hobby plan).
+3. Add the environment variables `DATABASE_URL` and `AUTH_SECRET` (plus OAuth values if you use them).
+4. Set the build command to `npx prisma migrate deploy && npm run build`.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Project structure
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+```
+src/
+  app/            routes: (marketing) home and about, login, search, (app)/library, api/auth
+  components/     ui/ (Button, FeatureCard, Skeleton) and layout/ (Navbar, Hero, SearchBar)
+  lib/            env checks, database client
+  auth.ts         Auth.js setup
+prisma/           schema and migrations
+```
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+The original Create React App version is saved under the git tag `cra-legacy`.
